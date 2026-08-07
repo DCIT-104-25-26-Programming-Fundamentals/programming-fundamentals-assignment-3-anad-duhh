@@ -70,3 +70,106 @@
 
 const readlineSync = require('readline-sync');
 
+function readMatrix(rows, cols) {
+    let matrix = [];
+
+    for (let i = 0; i < rows; i++) {
+        let row = readlineSync.question(`Enter row ${i + 1}: `);
+        matrix.push(row.split(' ').map(Number));
+    }
+
+    return matrix;
+}
+
+function displayMatrix(matrix) {
+    for (let i = 0; i < matrix.length; i++) {
+        console.log(matrix[i].join(" "));
+    }
+}
+
+function transposeMatrix(matrix) {
+    let transpose = [];
+
+    for (let i = 0; i < matrix[0].length; i++) {
+        transpose[i] = [];
+        for (let j = 0; j < matrix.length; j++) {
+            transpose[i][j] = matrix[j][i];
+        }
+    }
+
+    return transpose;
+}
+
+function addMatrices(matrix1, matrix2) {
+    let result = [];
+
+    for (let i = 0; i < matrix1.length; i++) {
+        result[i] = [];
+        for (let j = 0; j < matrix1[0].length; j++) {
+            result[i][j] = matrix1[i][j] + matrix2[i][j];
+        }
+    }
+
+    return result;
+}
+
+function multiplyMatrices(matrixA, matrixB) {
+    let result = [];
+
+    for (let i = 0; i < matrixA.length; i++) {
+        result[i] = [];
+        for (let j = 0; j < matrixB[0].length; j++) {
+            result[i][j] = 0;
+            for (let k = 0; k < matrixB.length; k++) {
+                result[i][j] += matrixA[i][k] * matrixB[k][j];
+            }
+        }
+    }
+
+    return result;
+}
+
+// ---------- PART A ----------
+console.log("PART A: Transpose Matrix");
+
+let rows = parseInt(readlineSync.question("Enter number of rows: "));
+let cols = parseInt(readlineSync.question("Enter number of columns: "));
+
+let matrix = readMatrix(rows, cols);
+
+console.log("\nOriginal Matrix:");
+displayMatrix(matrix);
+
+console.log("\nTransposed Matrix:");
+displayMatrix(transposeMatrix(matrix));
+
+// ---------- PART B ----------
+console.log("\nPART B: Add Two Matrices");
+
+rows = parseInt(readlineSync.question("Enter number of rows: "));
+cols = parseInt(readlineSync.question("Enter number of columns: "));
+
+console.log("Enter Matrix 1:");
+let matrix1 = readMatrix(rows, cols);
+
+console.log("Enter Matrix 2:");
+let matrix2 = readMatrix(rows, cols);
+
+console.log("\nSum Matrix:");
+displayMatrix(addMatrices(matrix1, matrix2));
+
+// ---------- PART C ----------
+console.log("\nPART C: Multiply Two Matrices");
+
+let m = parseInt(readlineSync.question("Enter rows of Matrix A: "));
+let n = parseInt(readlineSync.question("Enter columns of Matrix A: "));
+let p = parseInt(readlineSync.question("Enter columns of Matrix B: "));
+
+console.log("Enter Matrix A:");
+let matrixA = readMatrix(m, n);
+
+console.log("Enter Matrix B:");
+let matrixB = readMatrix(n, p);
+
+console.log("\nProduct Matrix:");
+displayMatrix(multiplyMatrices(matrixA, matrixB));
